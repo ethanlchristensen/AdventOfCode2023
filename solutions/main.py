@@ -1,16 +1,21 @@
 import re
 import os
 
-main_path = os.getcwd()
-main_path_formattable = main_path + "\\%s"
+main_path = os.getcwd() + "\\%s"
 
-folders = [folder_name for folder_name in os.listdir(main_path) if re.match(r"\d*\-day\-.*", folder_name)]
+# valid folder names follow "#-day-#" that contain a py file with the same names
+folders = [folder_name for folder_name in os.listdir(main_path % '') if re.match(r'\d*\-day\-.*', folder_name)]
 
 for folder in folders:
-    print(f"{' '.join(folder.split('-')[1:]).replace('-', ' ').upper():=^35s}")
+    print(f"{re.sub(r'[^A-Z ]', '', folder.replace('-', ' ').upper()).strip():=^35s}")
+    # solution file from the folder
     module = __import__(folder, fromlist=[folder])
+    # get the file as module
     day = getattr(module, folder)
-    os.chdir(main_path_formattable % folder)
+    # change dir to that folder (to access data)
+    os.chdir(main_path % folder)
+    # invoke the solve command for the module
     day.solve()
-    os.chdir(main_path)
+    # change dir back to the main path
+    os.chdir(main_path % '')
     print()
