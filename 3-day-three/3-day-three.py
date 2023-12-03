@@ -96,42 +96,58 @@ def part_two():
         [-1, -1],
     ]
 
-    data = load_data('data')
+    data = load_data()
 
     sum = 0
 
     gear_locations = set()
     number_locations = set()
 
-    def get_gear_neighbors(gear, neighbors):
+    def get_gear_neighbors_product(gear, neighbors):
 
         output = []
 
+        # get the set of valid gear coords. this is
+        # the 8 cells that surround the gear.
         valid_gear_cords = [
-            (gear[0] + direction[0], gear[1] + direction[1]) for direction in directions
+            (gear[0] + direction[0], gear[1] + direction[1]) 
+            for direction in directions
         ]
 
         for neighbor in neighbors:
-            valid_neighbor_cords = [(x, neighbor[2])
-                                    for x in range(neighbor[0], neighbor[1])]
+            # create the range of (x, y) coordinates that make
+            # up the number
+            valid_neighbor_cords = [
+                (x, neighbor[2])
+                for x in range(neighbor[0], neighbor[1])
+            ]
+            
+            # if a number coordinate is in the valid gear coordniates
+            # then the gear is adjacent to this unique number
             for valid_neighbor_cord in valid_neighbor_cords:
                 if valid_neighbor_cord in valid_gear_cords:
                     output.append(int(neighbor[3]))
                     break
-
-        return output
-
+                
+        # if the gear had only two adjacent numbers
+        # return the product, otherwise 0     
+        if len(output) == 2:
+            return(output[0] * output[1])
+        return 0
+    
+    # loop through input and get the gear and number
+    # locations.
     for idx, line in enumerate(data):
         for gear in re.finditer("\*", line):
             gear_locations.add((gear.start(), idx))
         for digit in re.finditer("\d+", line):
             number_locations.add(
                 (digit.start(), digit.end(), idx, digit.group(0)))
-
+    
+    # for each gear, get the product of it's two 
+    # adjacent numbers (or 0 if there aren't two)
     for gear in gear_locations:
-        neighbors = get_gear_neighbors(gear, number_locations)
-        if len(neighbors) == 2:
-            sum += neighbors[0] * neighbors[1]
+        sum += get_gear_neighbors_product(gear, number_locations)
 
     return sum
 
