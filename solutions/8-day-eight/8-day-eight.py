@@ -1,4 +1,13 @@
 
+import re
+
+def load_data(name='data'):
+    file = open(name, 'r')
+    data = [line.strip() for line in file.readlines()]
+    file.close()
+    return data
+    
+    
 def part_one():
     """
     code to solve part one
