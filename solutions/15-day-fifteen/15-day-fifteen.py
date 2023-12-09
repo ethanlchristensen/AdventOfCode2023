@@ -18,8 +18,10 @@ def solve():
     part_one_answer = part_one()
     part_two_answer = part_two()
     
-    print(f"part one: {part_one_answer}")
-    print(f"part two: {part_two_answer}")
+    if part_one_answer:
+        print(f"part one: {part_one_answer}")
+    if part_two_answer:
+        print(f"part two: {part_two_answer}")
     
 if __name__ == '__main__':
     """

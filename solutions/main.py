@@ -8,8 +8,7 @@ folders = list(dict(sorted({folder_name: int(folder_name.split('-')[0]) for fold
     main_path % '') if re.match(r'\d*\-day\-.*', folder_name)}.items(), key=lambda x: x[1])).keys())
 
 for folder in folders:
-    print(
-        f"{re.sub(r'[^A-Z ]', '', folder.replace('-', ' ').upper()).strip():=^35s}")
+    print(f"{re.sub(r'[^A-Z ]', '', folder.replace('-', ' ').upper()).strip():=^35s}")
     # solution file from the folder
     module = __import__(folder, fromlist=[folder])
     # get the file as module
