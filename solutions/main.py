@@ -4,10 +4,12 @@ import os
 main_path = os.getcwd() + "\\%s"
 
 # valid folder names follow "#-day-#" that contain a py file with the same names
-folders = [folder_name for folder_name in os.listdir(main_path % '') if re.match(r'\d*\-day\-.*', folder_name)]
+folders = list(dict(sorted({folder_name: int(folder_name.split('-')[0]) for folder_name in os.listdir(
+    main_path % '') if re.match(r'\d*\-day\-.*', folder_name)}.items(), key=lambda x: x[1])).keys())
 
 for folder in folders:
-    print(f"{re.sub(r'[^A-Z ]', '', folder.replace('-', ' ').upper()).strip():=^35s}")
+    print(
+        f"{re.sub(r'[^A-Z ]', '', folder.replace('-', ' ').upper()).strip():=^35s}")
     # solution file from the folder
     module = __import__(folder, fromlist=[folder])
     # get the file as module

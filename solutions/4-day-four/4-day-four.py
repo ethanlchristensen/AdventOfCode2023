@@ -35,24 +35,31 @@ def part_two():
     
     data = load_data()
     
+    start = time.time_ns()
+    
     mapping = [1 for _ in range(len(data))]
     
-    for idx, card in enumerate(data):   
-        card_data = card.split(': ')[1].split(' | ')
-        winning_numbers = [num for num in card_data[0].split(' ') if num != '']
-        card_numbers = [num for num in card_data[1].split(' ') if num != '']
-        
-        matching_numbers = len([val for val in card_numbers if val in winning_numbers])
-        
-        for copy in range(idx + 1, idx + matching_numbers + 1):
-            mapping[copy] += mapping[idx]
+    for idx, card in enumerate(data):
+        matching_numbers = ((x:=card.split(': ')[1].split(' | ')), len(set(x[0].split()).intersection(set(x[1].split()))))[1]
+        for _ in range(idx + 1, idx + matching_numbers + 1):
+            mapping[_] = mapping[_] + mapping[idx]
     
-    return sum(mapping)
+    total = sum(mapping)
+    
+    total_time = time.time_ns() - start
+    
+    return total, total_time
         
 
 def solve():
     part_one_answer = part_one()
-    part_two_answer = part_two()
+    
+    iters = 1_000
+    time_sum = 0
+    for run in range(iters):
+        part_two_answer, time_to_run = part_two()
+        time_sum += time_to_run
+    print(f"avg part two run time: {time_sum / iters}ns")
 
     print(f'part one: {part_one_answer}')
     print(f'part two: {part_two_answer}')
