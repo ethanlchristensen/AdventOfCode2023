@@ -53,14 +53,8 @@ def part_two():
 
 def solve():
     part_one_answer = part_one()
+    part_two_answer, time_to_run = part_two()
     
-    iters = 1_000
-    time_sum = 0
-    for run in range(iters):
-        part_two_answer, time_to_run = part_two()
-        time_sum += time_to_run
-    print(f"avg part two run time: {time_sum / iters}ns")
-
     print(f'part one: {part_one_answer}')
     print(f'part two: {part_two_answer}')
 

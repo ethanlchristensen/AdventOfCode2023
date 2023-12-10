@@ -1,5 +1,6 @@
 
 import re
+import time
 import pandas as pd
 
 def load_data(name='data'):
@@ -15,6 +16,8 @@ def part_one():
     """
     
     data = load_data()
+    
+    start = time.time_ns()
     
     data = [line.split(' ') for line in data]
     data = [(list(line[0]), int(line[1])) for line in data]
@@ -109,26 +112,27 @@ def part_one():
     df['hand_type']  = hand_assignments
     df['hand_type_val'] = [hand_assignments_value[hand_assignment] for hand_assignment in hand_assignments]
     df['bid'] = [line[1] for line in data]
-    
     df = df.sort_values(by=['hand_type_val', 'card_1_val', 'card_2_val', 'card_3_val', 'card_4_val', 'card_5_val']).reset_index()
     df['idx'] = list(range(1, len(df) + 1))
     
     result = sum([a * b for a, b in zip(df['bid'].to_list(), df['idx'].to_list())])
     
-    return result
+    time_to_get = time.time_ns() - start
+    
+    return result, time_to_get
 
 def part_two():
     """
     code to solve part two
     """
-    return None
+    return None, None
     
 def solve():
     """
     code to run part one and part two
     """
-    part_one_answer = part_one()
-    part_two_answer = part_two()
+    part_one_answer, time_to_get = part_one()
+    part_two_answer, time_to_get = part_two()
     
     if part_one_answer:
         print(f"part one: {part_one_answer}")

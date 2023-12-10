@@ -81,7 +81,7 @@ def part_two():
     """
     code to solve part two
     """
-    
+    return None, None
     data = load_data()
     
     start = time.time_ns()
@@ -156,16 +156,9 @@ def solve():
     """
     code to run part one and part two
     """
-    iters = 1_000
-    time_sum = 0
-    
-    for run in range(iters):
-        part_one_answer, time_to_run = part_one()
-        time_sum += time_to_run
-        
-    print(f"avg part one run time: {time_sum / iters}ns")
 
-    part_two_answer = part_two()
+    part_one_answer, time_to_run = part_one()
+    part_two_answer, time_to_run = part_two()
 
     if part_one_answer:
         print(f"part one: {part_one_answer}")
